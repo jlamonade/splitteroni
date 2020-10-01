@@ -1,11 +1,63 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% endblock title %}</title>
+  <meta charset="utf-8">
+  <title>{% block title %}Splitteroni{% endblock title %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
-{% block content %}
-{% endblock content %}
+  <header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light"
+         style="margin-bottom: 25px">
+      <a class="navbar-brand" href="{% url 'home' %}">SPLITTERONI</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">New Split</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Archive</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav mr-right">
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                  <span class="navbar-text">Hello, {{ user.email }}!</span>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'account_logout' %}">Log out</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'account_signup' %}">Sign up</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'account_login' %}">Log in</a>
+              </li>
+            {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    {% block content %}
+    {% endblock content %}
+  </div>
+  <!-- JavaScript -->
+  <!-- JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
 </body>
 </html>
