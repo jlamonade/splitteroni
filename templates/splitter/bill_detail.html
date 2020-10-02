@@ -3,6 +3,12 @@
 {% block title %}{{ bill }} Details{% endblock title %}
 
 {% block content %}
-    <p>${{ bill.get_order_total }}</p>
-    <p>${{ bill.get_shared_items_total }}</p>
+    <a href="{% url 'person-create' bill.pk %}" class="btn btn-light">Add Person</a>
+    <p>Bill Total: ${{ bill.get_order_total }}</p>
+    <p>Shared Items Total: ${{ bill.get_shared_items_total }}</p>
+    {% for person in people %}
+        <p>{{ person }} | <a href="{% url 'person-delete' person.pk %}">Delete</a></p>
+    {% empty %}
+        <p>No people.</p>
+    {% endfor %}
 {% endblock content %}
