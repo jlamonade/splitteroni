@@ -1,0 +1,8 @@
+{% extends '_base.html' %}
+
+{% block title %}{{ bill }} Details{% endblock title %}
+
+{% block content %}
+    <p>${{ bill.get_order_total }}</p>
+    <p>${{ bill.get_shared_items_total }}</p>
+{% endblock content %}
