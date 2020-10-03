@@ -5,7 +5,7 @@
 {% block content %}
     {% for bill in bills %}
         <p><a href="{% url 'bill-detail' bill.pk %}">{{ bill }} -
-            {{ bill.date_created }}</a></p>
+            {{ bill.date_created|date:'m/d/y H:i A' }}</a></p>
     {% empty %}
         <p>No bills yet.</p>
     {% endfor %}

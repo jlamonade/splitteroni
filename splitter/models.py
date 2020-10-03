@@ -13,7 +13,7 @@ class Bill(models.Model):
 
     def __str__(self):
         if not self.title:
-            return self.date_created.strftime("%m/%d/%m %I:%M%p")
+            return self.date_created.strftime("%m/%d/%y %I:%M%p")
         else:
             return self.title.title()
 
