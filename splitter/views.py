@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, DetailView, DeleteView
+from django.views.generic import CreateView, DetailView, DeleteView, ListView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
 
 from .models import Bill, Person, Item
 
@@ -11,6 +12,13 @@ class BillCreateView(CreateView):
     model = Bill
     template_name = 'splitter/bill_create.html'
     fields = ('title',)
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            form.instance.owner = self.request.user
+            return super().form_valid(form)
+        else:
+            return super().form_valid(form)
 
 
 class BillDetailView(DetailView):
@@ -45,3 +53,12 @@ class PersonDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('bill-detail', args=[self.object.bill.id])
+
+
+class BillListView(ListView):
+    template_name = 'splitter/bill_list.html'
+    context_object_name = 'bills'
+
+    def get_queryset(self):
+        qs = Bill.objects.filter(owner=self.request.user)
+        return qs

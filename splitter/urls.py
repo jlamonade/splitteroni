@@ -1,6 +1,12 @@
 from django.urls import path
 
-from .views import BillCreateView, BillDetailView, PersonCreateView, PersonDeleteView
+from .views import (
+    BillCreateView,
+    BillDetailView,
+    PersonCreateView,
+    PersonDeleteView,
+    BillListView
+)
 
 
 urlpatterns = [
@@ -8,4 +14,5 @@ urlpatterns = [
     path('<int:pk>/', BillDetailView.as_view(), name='bill-detail'),
     path('<int:pk>/add-person/', PersonCreateView.as_view(), name='person-create'),
     path('person/<int:pk>/delete/', PersonDeleteView.as_view(), name='person-delete'),
+    path('archive/', BillListView.as_view(), name='bill-list'),
 ]
