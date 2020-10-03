@@ -26,7 +26,7 @@ class Bill(models.Model):
     @property
     def get_shared_items_total(self):
         total = 0
-        for item in Item.objects.filter(shared=False):
+        for item in Item.objects.filter(shared=True, bill=self):
             total += item.price
         return total
 
@@ -60,6 +60,8 @@ class Item(models.Model):
 
     def __str__(self):
         return self.title
+
+
 
 
 

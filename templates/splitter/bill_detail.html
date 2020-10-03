@@ -8,6 +8,7 @@
     <p>Shared Items Total: ${{ bill.get_shared_items_total }}</p>
     {% for person in people %}
         <p>{{ person }} | <a href="{% url 'person-delete' person.pk %}">Delete</a></p>
+        <p><a href="{% url 'item-create' person.id bill.id %}">Add item</a></p>
     {% empty %}
         <p>No people.</p>
     {% endfor %}

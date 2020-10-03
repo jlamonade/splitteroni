@@ -28,8 +28,9 @@ class BillDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        bill = get_object_or_404(Bill, id=self.kwargs['pk'])
         context['people'] = Person.objects.filter(
-            bill=get_object_or_404(Bill, id=self.kwargs['pk']))
+            bill=bill)
         return context
 
 
@@ -39,8 +40,8 @@ class PersonCreateView(CreateView):
     fields = ('name',)
 
     def form_valid(self, form):
-        self.bill = get_object_or_404(Bill, id=self.kwargs['pk'])
-        form.instance.bill = self.bill
+        bill = get_object_or_404(Bill, id=self.kwargs['pk'])
+        form.instance.bill = bill
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -62,3 +63,20 @@ class BillListView(ListView):
     def get_queryset(self):
         qs = Bill.objects.filter(owner=self.request.user)
         return qs
+
+
+class ItemCreateView(CreateView):
+    model = Item
+    template_name = 'splitter/item_create.html'
+    fields = ('title', 'price',)
+
+    def form_valid(self, form):
+        bill = get_object_or_404(Bill, id=self.kwargs['bill_id'])
+        person = get_object_or_404(Person, id=self.kwargs['person_id'])
+        form.instance.bill = bill
+        form.instance.person = person
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('bill-detail', args=[self.object.bill.id])
+

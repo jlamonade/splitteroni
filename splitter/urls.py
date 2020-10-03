@@ -5,7 +5,8 @@ from .views import (
     BillDetailView,
     PersonCreateView,
     PersonDeleteView,
-    BillListView
+    BillListView,
+    ItemCreateView
 )
 
 
@@ -15,4 +16,8 @@ urlpatterns = [
     path('<int:pk>/add-person/', PersonCreateView.as_view(), name='person-create'),
     path('person/<int:pk>/delete/', PersonDeleteView.as_view(), name='person-delete'),
     path('archive/', BillListView.as_view(), name='bill-list'),
+    path('<int:bill_id>/<int:person_id>/add-item/',
+         ItemCreateView.as_view(),
+         name='item-create'
+         ),
 ]
