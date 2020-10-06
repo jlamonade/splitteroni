@@ -54,8 +54,14 @@ class Person(models.Model):
 class Item(models.Model):
     title = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=15, decimal_places=2)
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='person', blank=True, null=True)
-    bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='bill')
+    person = models.ForeignKey(
+        Person,
+        on_delete=models.CASCADE,
+        related_name='items',
+        blank=True,
+        null=True
+    )
+    bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='items')
     shared = models.BooleanField(default=False)
 
     def __str__(self):

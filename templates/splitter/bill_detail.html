@@ -6,10 +6,30 @@
     <a href="{% url 'person-create' bill.pk %}" class="btn btn-light">Add Person</a>
     <p>Bill Total: ${{ bill.get_order_total }}</p>
     <p>Shared Items Total: ${{ bill.get_shared_items_total }}</p>
-    {% for person in people %}
-        <p>{{ person }} | <a href="{% url 'person-delete' person.pk %}">Delete</a></p>
-        <p><a href="{% url 'item-create' person.id bill.id %}">Add item</a></p>
-    {% empty %}
-        <p>No people.</p>
-    {% endfor %}
+    <div class="card-deck">
+        {% for person in people %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ person }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">${{ person.get_person_total }}</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for item in person.items.all %}
+                            <li class="list-group-item">{{ item.title }} - {{ item.price }}</li>
+                        {% empty %}
+                            <li class="list-group-item">No items yet.</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="card-body">
+                        <a href="{% url 'item-create' person.id bill.id %}" class="card-link btn btn-light">
+                            Add item</a>
+                        <a href="{% url 'person-delete' person.pk %}" class="card-link btn btn-light">
+                            Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No people.</p>
+        {% endfor %}
+    </div>
 {% endblock content %}
+

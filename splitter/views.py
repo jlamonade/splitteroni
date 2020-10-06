@@ -28,9 +28,9 @@ class BillDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        bill = get_object_or_404(Bill, id=self.kwargs['pk'])
         context['people'] = Person.objects.filter(
-            bill=bill)
+            bill=self.object.id)
+        context['items'] = Item.objects.filter(bill=self.object.id)   # TODO: FILTER PERSON HERE
         return context
 
 
