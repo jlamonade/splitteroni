@@ -80,3 +80,11 @@ class ItemCreateView(CreateView):
     def get_success_url(self):
         return reverse_lazy('bill-detail', args=[self.object.bill.id])
 
+
+class ItemDeleteView(DeleteView):
+    model = Item
+    template_name = 'splitter/item_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('bill-detail', args=[self.object.bill.id])
+

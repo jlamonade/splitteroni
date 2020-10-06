@@ -8,23 +8,27 @@
     <p>Shared Items Total: ${{ bill.get_shared_items_total }}</p>
     <div class="card-deck">
         {% for person in people %}
-            <div class="card" style="width: 18rem;">
+            <div class="card text-center" style="width: 18rem;">
+                <h5 class="card-header">
+                    {{ person }} | ${{ person.get_person_total }}
+                </h5>
                 <div class="card-body">
-                    <h5 class="card-title">{{ person }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">${{ person.get_person_total }}</h6>
                     <ul class="list-group list-group-flush">
                         {% for item in person.items.all %}
-                            <li class="list-group-item">{{ item.title }} - {{ item.price }}</li>
+                            <li class="list-group-item">
+                                {{ item.title }} - {{ item.price }}
+                                <a href="{% url 'item-delete' item.pk %}" class="btn btn-light">Delete</a>
+                            </li>
                         {% empty %}
                             <li class="list-group-item">No items yet.</li>
                         {% endfor %}
                     </ul>
-                    <div class="card-body">
-                        <a href="{% url 'item-create' person.id bill.id %}" class="card-link btn btn-light">
-                            Add item</a>
-                        <a href="{% url 'person-delete' person.pk %}" class="card-link btn btn-light">
-                            Delete</a>
-                    </div>
+                </div>
+            <div class="card-footer">
+                    <a href="{% url 'item-create' bill.pk person.pk %}" class="card-link btn btn-light">
+                        Add item</a>
+                    <a href="{% url 'person-delete' person.pk %}" class="card-link btn btn-light">
+                        Delete</a>
                 </div>
             </div>
         {% empty %}
