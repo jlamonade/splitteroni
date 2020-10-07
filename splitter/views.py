@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, DetailView, DeleteView, ListView
+from django.views.generic import CreateView, DetailView, DeleteView, ListView, UpdateView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
@@ -11,7 +11,7 @@ from .models import Bill, Person, Item
 class BillCreateView(CreateView):
     model = Bill
     template_name = 'splitter/bill_create.html'
-    fields = ('title',)
+    fields = ('title', 'tax', 'tip',)
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
@@ -30,7 +30,7 @@ class BillDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['people'] = Person.objects.filter(
             bill=self.object.id)
-        context['items'] = Item.objects.filter(bill=self.object.id)   # TODO: FILTER PERSON HERE
+        context['shared_items'] = Item.objects.filter(bill=self.object.id, shared=True)
         return context
 
 
@@ -43,9 +43,6 @@ class PersonCreateView(CreateView):
         bill = get_object_or_404(Bill, id=self.kwargs['pk'])
         form.instance.bill = bill
         return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse_lazy('bill-detail', args=[self.bill.id])
 
 
 class PersonDeleteView(DeleteView):
@@ -77,8 +74,17 @@ class ItemCreateView(CreateView):
         form.instance.person = person
         return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse_lazy('bill-detail', args=[self.object.bill.id])
+
+class SharedItemCreateView(CreateView):
+    model = Item
+    template_name = "splitter/item_create.html"
+    fields = ('title', 'price',)
+
+    def form_valid(self, form):
+        bill = get_object_or_404(Bill, id=self.kwargs['bill_id'])
+        form.instance.bill = bill
+        form.instance.shared = True
+        return super().form_valid(form)
 
 
 class ItemDeleteView(DeleteView):
@@ -87,4 +93,15 @@ class ItemDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('bill-detail', args=[self.object.bill.id])
+
+
+class BillUpdateView(UpdateView):
+    model = Bill
+    template_name = 'splitter/bill_update.html'
+    fields = ('tip', 'tax',)
+
+    def form_valid(self, form):
+        bill = get_object_or_404(Bill, id=self.kwargs['pk'])
+        form.instance.bill = bill
+        return super().form_valid(form)
 

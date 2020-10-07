@@ -3,36 +3,64 @@
 {% block title %}{{ bill }} Details{% endblock title %}
 
 {% block content %}
-    <a href="{% url 'person-create' bill.pk %}" class="btn btn-light">Add Person</a>
-    <p>Bill Total: ${{ bill.get_order_total }}</p>
-    <p>Shared Items Total: ${{ bill.get_shared_items_total }}</p>
-    <div class="card-deck">
+    <div class="text-center m-2 p-2">
+        <h1>Total: ${{ bill.get_order_total }}</h1>
+        <div class="btn-group" role="group">
+            <a href="{% url 'person-create' bill.pk %}" class="btn btn-dark">Add Person</a>
+            <a href="{% url 'bill-update' bill.pk %}" class="btn btn-dark">Update Bill</a>
+        </div>
+    </div>
+
+    <div class="card-columns">
+        <div class="card text-center" style="width: 18rem;">
+            <h4 class="card-header">
+                Shared Items | ${{ bill.get_shared_items_total }}
+            </h4>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for item in shared_items %}
+                        <li class="list-group-item">
+                            {{ item.title }} - ${{ item.price }}
+                            <a href="{% url 'item-delete' item.pk %}" class="btn btn-warning">
+                                Delete</a>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">
+                            No items yet.
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'shared-item-create' bill.pk %}" class="btn btn-dark">
+                    Add item</a>
+            </div>
+        </div>
+
         {% for person in people %}
             <div class="card text-center" style="width: 18rem;">
-                <h5 class="card-header">
+                <h4 class="card-header">
                     {{ person }} | ${{ person.get_person_total }}
-                </h5>
+                </h4>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         {% for item in person.items.all %}
                             <li class="list-group-item">
                                 {{ item.title }} - {{ item.price }}
-                                <a href="{% url 'item-delete' item.pk %}" class="btn btn-light">Delete</a>
+                                <a href="{% url 'item-delete' item.pk %}" class="btn btn-warning">Delete</a>
                             </li>
                         {% empty %}
                             <li class="list-group-item">No items yet.</li>
                         {% endfor %}
                     </ul>
                 </div>
-            <div class="card-footer">
-                    <a href="{% url 'item-create' bill.pk person.pk %}" class="card-link btn btn-light">
+                <div class="card-footer">
+                    <a href="{% url 'item-create' bill.pk person.pk %}" class="card-link btn btn-dark">
                         Add item</a>
-                    <a href="{% url 'person-delete' person.pk %}" class="card-link btn btn-light">
+                    <a href="{% url 'person-delete' person.pk %}" class="card-link btn btn-danger">
                         Delete</a>
                 </div>
             </div>
-        {% empty %}
-            <p>No people.</p>
         {% endfor %}
     </div>
 {% endblock content %}

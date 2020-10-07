@@ -8,8 +8,8 @@ class Bill(models.Model):
     title = models.CharField(max_length=50, blank=True, null=True)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True, default=0)
-    tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True, default=0)
+    tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True)
+    tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True)
 
     def __str__(self):
         if not self.title:
@@ -23,7 +23,6 @@ class Bill(models.Model):
             total += item.price
         return total
 
-    @property
     def get_shared_items_total(self):
         total = 0
         for item in Item.objects.filter(shared=True, bill=self):
@@ -36,19 +35,30 @@ class Bill(models.Model):
 
 class Person(models.Model):
     name = models.CharField(max_length=20)
-    bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
+    bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='people')
 
     class Meta:
         verbose_name_plural = 'people'
 
     def __str__(self):
-        return self.name
+        return self.name.title()
+
+    def get_shared_items_split(self):
+        total = 0
+        person_count = self.bill.people.all().count()
+        for item in self.bill.items.filter(shared=True):
+            total += item.price
+        split_amount = total / person_count
+        return round(split_amount, 2)
 
     def get_person_total(self):
         total = 0
         for item in Item.objects.filter(person=self):
             total += item.price
-        return total
+        return total + self.get_shared_items_split()
+
+    def get_absolute_url(self):
+        return reverse('bill-detail', args=[self.bill.id])
 
 
 class Item(models.Model):
@@ -66,6 +76,9 @@ class Item(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('bill-detail', args=[self.bill.id])
 
 
 
