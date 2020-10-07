@@ -18,7 +18,7 @@ class Bill(models.Model):
             return self.title.title()
 
     def get_order_total(self):
-        total = 0
+        total = self.tip + self.tax
         for item in Item.objects.filter(bill=self):
             total += item.price
         return total
@@ -44,7 +44,7 @@ class Person(models.Model):
         return self.name.title()
 
     def get_shared_items_split(self):
-        total = 0
+        total = self.bill.tax + self.bill.tip
         person_count = self.bill.people.all().count()
         for item in self.bill.items.filter(shared=True):
             total += item.price

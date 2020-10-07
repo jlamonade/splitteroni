@@ -5,6 +5,7 @@
 {% block content %}
     <div class="text-center m-2 p-2">
         <h1>Total: ${{ bill.get_order_total }}</h1>
+        <h5>Tip: {{ bill.tip }} Tax: {{ bill.tax }}</h5>
         <div class="btn-group" role="group">
             <a href="{% url 'person-create' bill.pk %}" class="btn btn-dark">Add Person</a>
             <a href="{% url 'bill-update' bill.pk %}" class="btn btn-dark">Update Bill</a>
@@ -12,7 +13,7 @@
     </div>
 
     <div class="card-columns">
-        <div class="card text-center" style="width: 18rem;">
+        <div class="card text-center" {% comment %}style="width: 18rem;"{% endcomment %}>
             <h4 class="card-header">
                 Shared Items | ${{ bill.get_shared_items_total }}
             </h4>
@@ -38,7 +39,7 @@
         </div>
 
         {% for person in people %}
-            <div class="card text-center" style="width: 18rem;">
+            <div class="card text-center" {% comment %}style="width: 18rem;"{% endcomment %}>
                 <h4 class="card-header">
                     {{ person }} | ${{ person.get_person_total }}
                 </h4>

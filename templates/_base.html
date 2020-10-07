@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Splitteroni{% endblock title %}</title>
@@ -27,7 +27,7 @@
             <a class="nav-link" href="{% url 'bill-create' %}">New Bill</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'bill-list' %}">Archive</a>
+            <a class="nav-link" href="{% url 'bill-list' %}">History</a>
           </li>
         </ul>
         <ul class="navbar-nav mr-right">
