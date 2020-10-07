@@ -47,7 +47,7 @@
                     <ul class="list-group list-group-flush">
                         {% for item in person.items.all %}
                             <li class="list-group-item">
-                                {{ item.title }} - {{ item.price }}
+                                {{ item.title }} - ${{ item.price }}
                                 <a href="{% url 'item-delete' item.pk %}" class="btn btn-warning">Delete</a>
                             </li>
                         {% empty %}
