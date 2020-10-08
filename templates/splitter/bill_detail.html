@@ -5,7 +5,7 @@
 {% block content %}
     <div class="text-center m-2 p-2">
         <h1>Total: ${{ bill.get_order_total }}</h1>
-        <h5>Tip: {{ bill.tip }} Tax: {{ bill.tax }}</h5>
+        <h5>Tip: ${{ bill.tip }} Tax: ${{ bill.tax }}</h5>
         <div class="btn-group" role="group">
             <a href="{% url 'person-create' bill.pk %}" class="btn btn-dark">Add Person</a>
             <a href="{% url 'bill-update' bill.pk %}" class="btn btn-dark">Update Bill</a>

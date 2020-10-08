@@ -1,10 +1,16 @@
+import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-import datetime
+
 
 # Create your models here.
 class Bill(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     title = models.CharField(max_length=50, blank=True, null=True)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
