@@ -40,6 +40,11 @@ class Bill(models.Model):
 
 
 class Person(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     name = models.CharField(max_length=20)
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='people')
 
@@ -68,6 +73,11 @@ class Person(models.Model):
 
 
 class Item(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     title = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=15, decimal_places=2)
     person = models.ForeignKey(
