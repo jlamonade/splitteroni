@@ -14,8 +14,8 @@ class Bill(models.Model):
     title = models.CharField(max_length=50, blank=True, null=True)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True)
-    tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True)
+    tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True, default=0)
+    tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True, default=0)
 
     def __str__(self):
         if not self.title:
@@ -45,7 +45,7 @@ class Person(models.Model):
         default=uuid.uuid4,
         editable=False
     )
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=30)
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='people')
 
     class Meta:
@@ -78,7 +78,7 @@ class Item(models.Model):
         default=uuid.uuid4,
         editable=False
     )
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, blank=True, null=True)
     price = models.DecimalField(max_digits=15, decimal_places=2)
     person = models.ForeignKey(
         Person,
