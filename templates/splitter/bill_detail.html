@@ -8,7 +8,7 @@
         <h5>Tip: ${{ bill.tip }} Tax: ${{ bill.tax }}</h5>
         <div class="btn-group" role="group">
             <a href="{% url 'person-create' bill.pk %}" class="btn btn-dark">Add Person</a>
-            <a href="{% url 'bill-update' bill.pk %}" class="btn btn-dark">Update Bill</a>
+            <a href="{% url 'bill-update' bill.pk %}" class="btn btn-dark">Edit Split</a>
         </div>
     </div>
 
@@ -22,7 +22,7 @@
                     {% for item in shared_items %}
                         <li class="list-group-item">
                             {{ item.title }} - ${{ item.price }}
-                            <a href="{% url 'item-delete' item.pk %}" class="btn btn-warning">
+                            <a href="{% url 'item-delete' item.pk %}" class="badge badge-warning">
                                 Delete</a>
                         </li>
                     {% empty %}
@@ -48,7 +48,7 @@
                         {% for item in person.items.all %}
                             <li class="list-group-item">
                                 {{ item.title }} - ${{ item.price }}
-                                <a href="{% url 'item-delete' item.pk %}" class="btn btn-warning">Delete</a>
+                                <a href="{% url 'item-delete' item.pk %}" class="badge badge-warning">Delete</a>
                             </li>
                         {% empty %}
                             <li class="list-group-item">No items yet.</li>

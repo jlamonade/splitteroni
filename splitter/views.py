@@ -1,8 +1,7 @@
-from django.shortcuts import render
 from django.views.generic import CreateView, DetailView, DeleteView, ListView, UpdateView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Bill, Person, Item
 
@@ -53,9 +52,10 @@ class PersonDeleteView(DeleteView):
         return reverse_lazy('bill-detail', args=[self.object.bill.id])
 
 
-class BillListView(ListView):
+class BillListView(LoginRequiredMixin ,ListView):
     template_name = 'splitter/bill_list.html'
     context_object_name = 'bills'
+    login_url = 'account_login'
 
     def get_queryset(self):
         qs = Bill.objects.filter(owner=self.request.user)
