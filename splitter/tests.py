@@ -37,6 +37,7 @@ class SplitterTests(TestCase):
         )
         self.bill_total = self.item.price + self.shared_item.price + self.bill.tax + self.bill.tip
         self.shared_item_total = self.bill.tip + self.bill.tax + self.shared_item.price
+        self.bill_detail_response = self.client.get(self.bill.get_absolute_url())
 
     def test_bill_object(self):
         self.assertEqual(self.bill.title, 'testbill')
@@ -56,25 +57,23 @@ class SplitterTests(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_bill_detail_view(self):
-        response = self.client.get(self.bill.get_absolute_url())
         no_response = self.client.get('/bill/12345/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.bill_detail_response.status_code, 200)
         self.assertEqual(no_response.status_code, 404)
-        self.assertContains(response, 'testbill'.title())
-        self.assertContains(response, '12.00')
-        self.assertContains(response, '13.00')
-        self.assertContains(response, self.item.price)
-        self.assertContains(response, self.shared_item.price)
-        self.assertTemplateUsed(response, 'splitter/bill_detail.html')
-        self.assertContains(response, self.bill_total)
+        self.assertContains(self.bill_detail_response, 'testbill'.title())
+        self.assertContains(self.bill_detail_response, '12.00')
+        self.assertContains(self.bill_detail_response, '13.00')
+        self.assertContains(self.bill_detail_response, self.item.price)
+        self.assertContains(self.bill_detail_response, self.shared_item.price)
+        self.assertContains(self.bill_detail_response, self.bill_total)
+        self.assertTemplateUsed(self.bill_detail_response, 'splitter/bill_detail.html')
 
     def test_person_object(self):
         self.assertEqual(self.person.name, 'testperson')
         self.assertEqual(self.person.bill, self.bill)
 
     def test_person_object_in_bill_detail_view(self):
-        response = self.client.get(self.bill.get_absolute_url())
-        self.assertContains(response, 'testperson'.title())
+        self.assertContains(self.bill_detail_response, 'testperson'.title())
 
     def test_item_object(self):
         self.assertEqual(self.item.title, 'testitem')
@@ -83,9 +82,8 @@ class SplitterTests(TestCase):
         self.assertEqual(self.item.person, self.person)
 
     def test_item_object_in_bill_detail_view(self):
-        response = self.client.get(self.bill.get_absolute_url())
-        self.assertContains(response, 'testitem')
-        self.assertContains(response, 14.00)
+        self.assertContains(self.bill_detail_response, 'testitem')
+        self.assertContains(self.bill_detail_response, 14.00)
 
     def test_shared_item_object(self):
         self.assertEqual(self.shared_item.title, 'testshareditem')
@@ -93,9 +91,8 @@ class SplitterTests(TestCase):
         self.assertEqual(self.shared_item.bill, self.bill)
 
     def test_shared_item_object_in_bill_detail_view(self):
-        response = self.client.get(self.bill.get_absolute_url())
-        self.assertContains(response, 'testshareditem')
-        self.assertContains(response, 15.00)
+        self.assertContains(self.bill_detail_response, 'testshareditem')
+        self.assertContains(self.bill_detail_response, 15.00)
 
     def test_bill_model_methods(self):
         """Tests for Bill model methods."""
