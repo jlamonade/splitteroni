@@ -44,12 +44,12 @@ class PersonCreateView(CreateView):
         return super().form_valid(form)
 
 
-class PersonDeleteView(DeleteView):
-    model = Person
-    template_name = 'splitter/person_delete.html'
+class BillDeleteView(DeleteView):
+    model = Bill
+    template_name = 'splitter/bill_delete.html'
 
     def get_success_url(self):
-        return reverse_lazy('bill-detail', args=[self.object.bill.id])
+        return reverse_lazy('bill-list')
 
 
 class BillListView(LoginRequiredMixin ,ListView):
@@ -60,6 +60,14 @@ class BillListView(LoginRequiredMixin ,ListView):
     def get_queryset(self):
         qs = Bill.objects.filter(owner=self.request.user)
         return qs
+
+
+class PersonDeleteView(DeleteView):
+    model = Person
+    template_name = 'splitter/person_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('bill-detail', args=[self.object.bill.id])
 
 
 class ItemCreateView(CreateView):

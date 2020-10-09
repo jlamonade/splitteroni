@@ -1,10 +1,10 @@
 {% extends '_base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}New Bill{% endblock title %}
+{% block title %}New Split{% endblock title %}
 
 {% block content %}
-    <h1>New Bill</h1>
+    <h1>New Split</h1>
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}

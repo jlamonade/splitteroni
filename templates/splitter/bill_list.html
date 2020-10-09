@@ -1,11 +1,16 @@
 {% extends '_base.html' %}
 
-{% block title %}Bill Archive{% endblock title %}
+{% block title %}Split History{% endblock title %}
 
 {% block content %}
     {% for bill in bills %}
-        <p><a href="{% url 'bill-detail' bill.pk %}" class="btn btn-light">{{ bill }} -
-            {{ bill.date_created|date:'m/d/y H:i A' }}</a></p>
+        <p>
+            <div class="btn-group">
+                <a href="{% url 'bill-detail' bill.pk %}" class="btn btn-light">{{ bill }} -
+                {{ bill.date_created|date:'m/d/y H:i A' }}</a>
+                <a href="{% url 'bill-delete' bill.pk %}" class="btn btn-warning">Delete</a>
+            </div>
+        </p>
     {% empty %}
         <p>No bills yet.</p>
     {% endfor %}

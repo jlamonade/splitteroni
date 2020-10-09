@@ -4,7 +4,7 @@
 {% block title %}Add item{% endblock title %}
 
 {% block content %}
-    <p>Add an item</p>
+    <h1>Add Item</h1>
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}

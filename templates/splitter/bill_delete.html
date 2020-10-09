@@ -1,10 +1,10 @@
 {% extends '_base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Delete Item{% endblock title %}
+{% block title %}Delete Split{% endblock title %}
 
 {% block content %}
-    <h5>Are you sure you want to delete this item?</h5>
+    <h5>Are you sure you want to delete this split?</h5>
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}

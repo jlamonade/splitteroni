@@ -10,6 +10,7 @@ from .views import (
     ItemDeleteView,
     SharedItemCreateView,
     BillUpdateView,
+    BillDeleteView,
 )
 
 
@@ -19,6 +20,7 @@ urlpatterns = [
     path('<uuid:pk>/', BillDetailView.as_view(), name='bill-detail'),
     path('archive/', BillListView.as_view(), name='bill-list'),
     path('<uuid:pk>/update/', BillUpdateView.as_view(), name='bill-update'),
+    path('<uuid:pk>/delete/', BillDeleteView.as_view(), name='bill-delete'),
 
     # Person links
     path('<uuid:pk>/add-person/', PersonCreateView.as_view(), name='person-create'),
