@@ -17,6 +17,11 @@ class Bill(models.Model):
     tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True, default=0)
     tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True, default=0)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['id'], name='id_index'),
+        ]
+
     def __str__(self):
         if not self.title:
             return self.date_created.strftime("%m/%d/%y %I:%M%p")
@@ -54,6 +59,9 @@ class Person(models.Model):
 
     class Meta:
         verbose_name_plural = 'people'
+        indexes = [
+            models.Index(fields=['id'], name='person_id_index'),
+        ]
 
     def __str__(self):
         return self.name.title()
@@ -97,6 +105,11 @@ class Item(models.Model):
     )
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE, related_name='items')
     shared = models.BooleanField(default=False)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['id'], name='item_id_index'),
+        ]
 
     def __str__(self):
         return self.title
