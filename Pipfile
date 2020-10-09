@@ -10,6 +10,7 @@ django = "*"
 django-crispy-forms = "*"
 django-allauth = "*"
 environs = {extras = ["django"], version = "*"}
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.8"
