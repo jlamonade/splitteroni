@@ -1,5 +1,4 @@
 /__pycache__/
 /db.sqlite3
 /venv/
-/staticfiles/
 /docker-compose-prod.yml
