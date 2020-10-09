@@ -3,3 +3,5 @@
 /venv/
 /staticfiles/
 /docker-compose-prod.yml
+/heroku.yml
+/docker-compose.yml

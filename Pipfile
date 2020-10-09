@@ -12,6 +12,8 @@ django-allauth = "*"
 environs = {extras = ["django"], version = "*"}
 psycopg2-binary = "*"
 django-debug-toolbar = "*"
+whitenoise = "==5.1.0"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
