@@ -3,3 +3,4 @@
 /venv/
 /docker-compose-prod.yml
 /staticfiles/
+/docker-compose.yml
