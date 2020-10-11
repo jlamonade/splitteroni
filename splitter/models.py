@@ -4,6 +4,9 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from decimal import Decimal
 
+from .utils import _check_tip_tax_then_add
+
+
 # Create your models here.
 class Bill(models.Model):
     id = models.UUIDField(
@@ -30,7 +33,7 @@ class Bill(models.Model):
 
     def get_order_total(self):
         # Returns the sum of all items including tax and tip
-        total = _check_tip_tax_then_add()
+        total = _check_tip_tax_then_add(self)
         items = Item.objects.filter(bill=self)
         for item in items:
             total += Decimal(item.price)
@@ -68,7 +71,7 @@ class Person(models.Model):
 
     def get_shared_items_split(self):
         # Returns the amount every person owes inside the shared items including tax and tip
-        total = _check_tip_tax_then_add()
+        total = _check_tip_tax_then_add(self.bill)
         person_count = self.bill.people.all().count()
         items = self.bill.items.filter(shared=True)
         for item in items:
@@ -116,15 +119,3 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         return reverse('bill-detail', args=[self.bill.id])
-
-
-def _check_tip_tax_then_add(self):
-    total = 0
-    if self.tip:
-        total += Decimal(self.tip)
-    if self.tax:
-        total += Decimal(self.tax)
-    return total
-
-
-

@@ -28,7 +28,6 @@ class BillCreateForm(ModelForm):
             },
         }
 
-<<<<<<< HEAD
 
 class BillUpdateForm(BillCreateForm):
     class Meta:
@@ -38,11 +37,3 @@ class BillUpdateForm(BillCreateForm):
             'tax': _('Please enter a currency amount.'),
             'tip': _('Please enter a currency amount.'),
         }
-=======
-# class BillUpdateForm(ModelForm):
-#     class Meta:
-#         model = Bill
-#         fields = ('tax', 'tip',)
-
->>>>>>> origin/logicFix
-
