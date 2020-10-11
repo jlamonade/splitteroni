@@ -6,8 +6,13 @@
     {% for bill in bills %}
         <p>
             <div class="btn-group">
-                <a href="{% url 'bill-detail' bill.pk %}" class="btn btn-light">{{ bill }} -
-                {{ bill.date_created|date:'m/d/y H:i A' }}</a>
+                <a href="{% url 'bill-detail' bill.pk %}" class="btn btn-light">
+                    {% if bill.title %}
+                        {{ bill }} - {{ bill.date_created|date:'m/d/y H:i A' }}
+                    {% else %}
+                        {{ bill.date_created|date:'m/d/y H:i A' }}
+                    {% endif %}
+                </a>
                 <a href="{% url 'bill-delete' bill.pk %}" class="btn btn-warning">Delete</a>
             </div>
         </p>

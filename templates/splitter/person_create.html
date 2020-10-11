@@ -4,13 +4,8 @@
 {% block title %}Add Person{% endblock title %}
 
 {% block content %}
-<<<<<<< HEAD
-    <h1>Add New Person</h1>
-    <h6 class="font-weight-light">* Required Fields</h6>
-=======
     <h1>Add Person</h1>
     <h6 class="font-weight-light font-italic">* Required Fields</h6>
->>>>>>> origin/logicFix
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
