@@ -12,7 +12,7 @@ class BillCreateForm(ModelForm):
             'title': _('Name'),
         }
         help_texts = {
-            'title': _('The current date and time will be used if no name is provided'),
+            'title': _('The current date and time will be used if name field is empty.'),
             'tax': _('Please enter a currency amount. You can adjust this later.'),
             'tip': _('Please enter a currency amount. You can adjust this later.'),
         }
@@ -29,10 +29,13 @@ class BillCreateForm(ModelForm):
         }
 
 
-class BillUpdateForm(BillCreateForm):
+class BillUpdateForm(ModelForm):
     class Meta:
         model = Bill
-        fields = ('tax', 'tip',)
+        fields = ('title', 'tax', 'tip',)
+        labels = {
+            'title': _('Name'),
+        }
         help_texts = {
             'tax': _('Please enter a currency amount.'),
             'tip': _('Please enter a currency amount.'),
