@@ -28,3 +28,13 @@ class BillCreateForm(ModelForm):
             },
         }
 
+
+class BillUpdateForm(BillCreateForm):
+    class Meta:
+        model = Bill
+        fields = ('tax', 'tip',)
+        help_texts = {
+            'tax': _('Please enter a currency amount.'),
+            'tip': _('Please enter a currency amount.'),
+        }
+
