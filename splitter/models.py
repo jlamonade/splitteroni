@@ -14,8 +14,8 @@ class Bill(models.Model):
     title = models.CharField(max_length=50, blank=True, null=True)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True, default=0)
-    tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True, default=0)
+    tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
+    tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
 
     class Meta:
         indexes = [
@@ -28,9 +28,17 @@ class Bill(models.Model):
         else:
             return self.title.title()
 
+    def _check_tip_tax_then_add(self):
+        total = 0
+        if self.tip:
+            total += Decimal(self.tip)
+        if self.tax:
+            total += Decimal(self.tax)
+        return total
+
     def get_order_total(self):
         # Returns the sum of all items including tax and tip
-        total = Decimal(self.tip + self.tax)
+        total = self._check_tip_tax_then_add()
         items = Item.objects.filter(bill=self)
         for item in items:
             total += Decimal(item.price)
@@ -68,7 +76,7 @@ class Person(models.Model):
 
     def get_shared_items_split(self):
         # Returns the amount every person owes inside the shared items including tax and tip
-        total = Decimal(self.bill.tax + self.bill.tip)
+        total = self._check_tip_tax_then_add()
         person_count = self.bill.people.all().count()
         items = self.bill.items.filter(shared=True)
         for item in items:
