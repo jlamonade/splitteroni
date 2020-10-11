@@ -23,7 +23,7 @@ class BillCreateForm(ModelForm):
             'tax': {
                 'max_digits': _("Amount is too large."),
             },
-            'title': {
+            'tip': {
                 'max_digits': _("Amount is too large."),
             },
         }
