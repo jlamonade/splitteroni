@@ -28,17 +28,9 @@ class Bill(models.Model):
         else:
             return self.title.title()
 
-    def _check_tip_tax_then_add(self):
-        total = 0
-        if self.tip:
-            total += Decimal(self.tip)
-        if self.tax:
-            total += Decimal(self.tax)
-        return total
-
     def get_order_total(self):
         # Returns the sum of all items including tax and tip
-        total = self._check_tip_tax_then_add()
+        total = _check_tip_tax_then_add()
         items = Item.objects.filter(bill=self)
         for item in items:
             total += Decimal(item.price)
@@ -76,7 +68,7 @@ class Person(models.Model):
 
     def get_shared_items_split(self):
         # Returns the amount every person owes inside the shared items including tax and tip
-        total = self._check_tip_tax_then_add()
+        total = _check_tip_tax_then_add()
         person_count = self.bill.people.all().count()
         items = self.bill.items.filter(shared=True)
         for item in items:
@@ -126,8 +118,13 @@ class Item(models.Model):
         return reverse('bill-detail', args=[self.bill.id])
 
 
-
-
+def _check_tip_tax_then_add(self):
+    total = 0
+    if self.tip:
+        total += Decimal(self.tip)
+    if self.tax:
+        total += Decimal(self.tax)
+    return total
 
 
 
