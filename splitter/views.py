@@ -1,16 +1,16 @@
-from django.views.generic import CreateView, DetailView, DeleteView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, DeleteView, ListView, UpdateView, FormView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Bill, Person, Item
+from .forms import BillCreateForm
 
 
 # Create your views here.
 class BillCreateView(CreateView):
-    model = Bill
     template_name = 'splitter/bill_create.html'
-    fields = ('title', 'tax', 'tip',)
+    form_class = BillCreateForm
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
