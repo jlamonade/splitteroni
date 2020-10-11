@@ -28,3 +28,9 @@ class BillCreateForm(ModelForm):
             },
         }
 
+# class BillUpdateForm(ModelForm):
+#     class Meta:
+#         model = Bill
+#         fields = ('tax', 'tip',)
+
+

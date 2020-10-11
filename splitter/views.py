@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Bill, Person, Item
-from .forms import BillCreateForm
+from .forms import BillCreateForm#, BillUpdateForm
 
 
 # Create your views here.
@@ -105,8 +105,8 @@ class ItemDeleteView(DeleteView):
 
 class BillUpdateView(UpdateView):
     model = Bill
+    fields = ('tax', 'tip',)
     template_name = 'splitter/bill_update.html'
-    fields = ('tip', 'tax',)
 
     def form_valid(self, form):
         bill = get_object_or_404(Bill, id=self.kwargs['pk'])
