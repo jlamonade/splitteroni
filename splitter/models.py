@@ -69,7 +69,7 @@ class Person(models.Model):
 
     def get_shared_items_split(self):
         # Returns the amount every person owes inside the shared items including tax and tip
-        total = _check_tip_tax_then_add(self)
+        total = _check_tip_tax_then_add(self.bill)
         person_count = self.bill.people.all().count()
         items = self.bill.items.filter(shared=True)
         for item in items:

@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+
 def _check_tip_tax_then_add(self):
     # Checks to see if tip or tax is null before adding them to total else it returns 0
     total = 0
