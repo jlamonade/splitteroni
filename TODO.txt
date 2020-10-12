@@ -1,0 +1,24 @@
+High Priority
+
+# Assign session variables into user sessions so that only they can view their bill.
+    # Consider allowing the anonymous user to create an account and save their current session.
+    # Create a new session when user creates a new split and assign the value to a session key.
+        # https://stackoverflow.com/questions/39181655/sometimes-request-session-session-key-is-none
+
+# Allow user to input tax percentage at split creation.
+    # Consider how to switch between tax amount versus tax percentage.
+        # How to have percentage and amount input on same form line?
+        # Maybe only have one method of input
+        # Tax percentage localization? Will users enter their current location? Google Maps API to pull in GPS data?
+
+
+Lower priority
+
+# Allow users to input items before assigning them to people.
+    # Have all items on one card and give each line the ability to assign them to people.
+    # Consider changing shared items to a general list of items.
+        # All items are created with the shared BooleanField set to True
+            # BooleanField set to false after assignment.
+
+# Consider reversing the logic.
+    # Having an initial split total and each new item subtracts from the total.
