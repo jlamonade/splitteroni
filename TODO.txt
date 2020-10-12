@@ -22,3 +22,8 @@ Lower priority
 
 # Consider reversing the logic.
     # Having an initial split total and each new item subtracts from the total.
+
+# Add separate buttons for editing tax and tip?
+
+# Change Tip to Tip/Service Charge?
+
