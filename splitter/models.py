@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from decimal import Decimal
 
+from .utils import _check_tip_tax_then_add
+
 
 # Create your models here.
 class Bill(models.Model):
