@@ -17,6 +17,7 @@ class Bill(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
     tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
+    tax_percent = models.DecimalField(max_digits=10, decimal_places=5, blank=True, null= True)
 
     class Meta:
         indexes = [
@@ -117,12 +118,3 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         return reverse('bill-detail', args=[self.bill.id])
-
-
-def _check_tip_tax_then_add(self):
-    total = 0
-    if self.tip:
-        total += Decimal(self.tip)
-    if self.tax:
-        total += Decimal(self.tax)
-    return total
