@@ -32,6 +32,15 @@ class Bill(models.Model):
         else:
             return self.title.title()
 
+    def get_tax_amount(self):
+        total = self.get_order_total()
+        if self.tax_percent:
+            tax_amount = total * (self.tax_percent / 100)
+            bill = Bill.objects.get(id=self.id)
+            bill.tax = tax_amount
+            bill.save()
+            return tax_amount
+
     def get_order_total(self):
         # Returns the sum of all items including tax and tip
         total = _check_tip_tax_then_add(self)

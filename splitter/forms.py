@@ -7,12 +7,13 @@ from .models import Bill
 class BillCreateForm(ModelForm):
     class Meta:
         model = Bill
-        fields = ('title', 'tax', 'tip',)
+        fields = ('title', 'tax_percent', 'tip',)
         labels = {
             'title': _('Name'),
         }
         help_texts = {
             'title': _('The current date and time will be used if name field is empty.'),
+            'tax_percent': _('Please enter a percentage(%). You can adjust this later.'),
             'tax': _('Please enter a currency amount. You can adjust this later.'),
             'tip': _('Please enter a currency amount. You can adjust this later.'),
         }

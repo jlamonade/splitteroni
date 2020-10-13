@@ -7,8 +7,15 @@
         <h3>{{ bill }}</h3>
         <h1>Total: ${{ bill.get_order_total }}</h1>
         <h5>
-            Tip: ${% if bill.tip %}{{ bill.tip }}{% else %}0{% endif %}
-            Tax: ${% if bill.tax %}{{ bill.tax }}{% else %}0{% endif %}
+            Tip: ${% if bill.tip %}{{ bill.tip }}{% else %}0.00{% endif %}
+            Tax: $
+            {% if bill.tax_percent %}
+                {{ bill.get_tax_amount }}
+            {% elif bill.tax %}
+                {{ bill.tax }}
+            {% else %}
+                0.00
+            {% endif %}
         </h5>
         <div class="btn-group" role="group">
             <a href="{% url 'person-create' bill.pk %}" class="btn btn-dark">Add Person</a>

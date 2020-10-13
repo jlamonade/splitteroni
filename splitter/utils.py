@@ -8,4 +8,4 @@ def _check_tip_tax_then_add(self):
         total += Decimal(self.tip)
     if self.tax:
         total += Decimal(self.tax)
-    return total
+    return Decimal(total)
