@@ -2,9 +2,11 @@ from django.views.generic import CreateView, DetailView, DeleteView, ListView, U
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from decimal import Decimal
 
 from .models import Bill, Person, Item
-from .forms import BillCreateForm, BillUpdateForm
+from .forms import BillCreateForm, BillUpdateForm, BillUpdateTaxPercentForm, BillUpdateTaxAmountForm
+from .mixins import BillUpdateViewMixin
 
 
 # Create your views here.
@@ -30,6 +32,8 @@ class BillDetailView(DetailView):
         context['people'] = Person.objects.filter(
             bill=self.object.id)
         context['shared_items'] = Item.objects.filter(bill=self.object.id, shared=True)
+        if self.object.tax_percent:
+            context['tax_percentage'] = Decimal(self.object.tax_percent).quantize(Decimal('0.001'))
         return context
 
 
@@ -113,3 +117,26 @@ class BillUpdateView(UpdateView):
         form.instance.bill = bill
         return super().form_valid(form)
 
+
+class BillUpdateTaxPercentView(UpdateView):
+    model = Bill
+    form_class = BillUpdateTaxPercentForm
+    template_name = 'splitter/bill_update_tax_percent.html'
+
+    def form_valid(self, form):
+        bill = get_object_or_404(Bill, id=self.kwargs['pk'])
+        form.instance.bill = bill
+        form.instance.tax = None
+        return super().form_valid(form)
+
+
+class BillUpdateTaxAmountView(UpdateView):
+    model = Bill
+    form_class = BillUpdateTaxAmountForm
+    template_name = 'splitter/bill_update_tax_amount.html'
+
+    def form_valid(self, form):
+        bill = get_object_or_404(Bill, id=self.kwargs['pk'])
+        form.instance.bill = bill
+        form.instance.tax_percent = None
+        return super().form_valid(form)

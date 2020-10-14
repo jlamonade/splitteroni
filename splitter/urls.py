@@ -10,6 +10,8 @@ from .views import (
     ItemDeleteView,
     SharedItemCreateView,
     BillUpdateView,
+    BillUpdateTaxPercentView,
+    BillUpdateTaxAmountView,
     BillDeleteView,
 )
 
@@ -20,6 +22,12 @@ urlpatterns = [
     path('<uuid:pk>/', BillDetailView.as_view(), name='bill-detail'),
     path('archive/', BillListView.as_view(), name='bill-list'),
     path('<uuid:pk>/update/', BillUpdateView.as_view(), name='bill-update'),
+    path('<uuid:pk>/update-tax-percent/',
+         BillUpdateTaxPercentView.as_view(),
+         name='bill-update-tax-percent'),
+    path('<uuid:pk>/update-tax-amount/',
+         BillUpdateTaxAmountView.as_view(),
+         name='bill-update-tax-amount'),
     path('<uuid:pk>/delete/', BillDeleteView.as_view(), name='bill-delete'),
 
     # Person links

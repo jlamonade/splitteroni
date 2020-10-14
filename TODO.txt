@@ -10,7 +10,9 @@ High Priority
         # How to have percentage and amount input on same form line?
         # Maybe only have one method of input
         # Tax percentage localization? Will users enter their current location? Google Maps API to pull in GPS data?
-
+    // Added ability to change from percentage calculation and manually entering amount.
+        // Might want to think about the UX of this method
+    # Write tests for new feature
 
 Lower priority
 

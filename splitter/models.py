@@ -19,7 +19,7 @@ class Bill(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
     tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
-    tax_percent = models.DecimalField(max_digits=10, decimal_places=5, blank=True, null= True)
+    tax_percent = models.DecimalField(max_digits=10, decimal_places=5, blank=True, null=True)
 
     class Meta:
         indexes = [
@@ -33,17 +33,23 @@ class Bill(models.Model):
             return self.title.title()
 
     def get_tax_amount(self):
-        total = self.get_order_total()
+        total = self.get_order_subtotal()
         if self.tax_percent:
             tax_amount = total * (self.tax_percent / 100)
             bill = Bill.objects.get(id=self.id)
             bill.tax = tax_amount
             bill.save()
-            return tax_amount
+            return Decimal(tax_amount).quantize(Decimal('.01'))
+        elif self.tax:
+            return Decimal(self.tax).quantize(Decimal('.01'))
 
-    def get_order_total(self):
+    def get_order_grand_total(self):
         # Returns the sum of all items including tax and tip
-        total = _check_tip_tax_then_add(self)
+        total = _check_tip_tax_then_add(self) + self.get_order_subtotal()
+        return Decimal(total)
+
+    def get_order_subtotal(self):
+        total = 0
         items = Item.objects.filter(bill=self)
         for item in items:
             total += Decimal(item.price)
