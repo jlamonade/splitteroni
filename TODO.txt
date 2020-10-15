@@ -30,3 +30,6 @@ Lower priority
 
 # Change Tip to Tip/Service Charge?
 
+# Allow users to enter items with no name.
+    # Show only the price if that is that case.
+
