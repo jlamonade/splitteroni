@@ -8,16 +8,30 @@
         <h1>Total: ${{ bill.get_order_grand_total }}</h1>
         <h5>
             Tip: ${% if bill.tip %}{{ bill.tip }}{% else %}0.00{% endif %}
-            Tax{% if bill.tax_percent %}({{ tax_percentage }}%){% endif %}: ${% if bill.get_tax_amount %}{{ bill.get_tax_amount }}
-            {% else %}
-                0.00
-            {% endif %}
+            Tax{% if bill.tax_percent %}({{ tax_percentage }}%){% endif %}: ${% if bill.get_tax_amount %}
+            {{ bill.get_tax_amount }}
+        {% else %}
+            0.00
+        {% endif %}
         </h5>
         <div class="btn-group" role="group">
             <a href="{% url 'person-create' bill.pk %}" class="btn btn-dark">Add Person</a>
             <a href="{% url 'bill-update' bill.pk %}" class="btn btn-dark">Edit Name</a>
-            <a href="{% url 'bill-update-tax-percent' bill.pk %}" class="btn btn-dark">Tax Percent</a>
-            <a href="{% url 'bill-update-tax-amount' bill.pk %}" class="btn btn-dark">Tax Amount</a>
+            <div class="dropdown btn-group">
+                <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Tax
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a href="{% url 'bill-update-tax-percent' bill.pk %}" class="dropdown-item">By Percent</a>
+                    <a href="{% url 'bill-update-tax-amount' bill.pk %}" class="dropdown-item">By Amount</a>
+                </div>
+            </div>
+            <form class="dropdown-menu p-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
             <a href="{% url 'bill-update-tip' bill.pk %}" class="btn btn-dark">Tip</a>
         </div>
     </div>
