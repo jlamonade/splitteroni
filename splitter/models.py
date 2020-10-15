@@ -19,7 +19,7 @@ class Bill(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
     tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
-    tax_percent = models.DecimalField(max_digits=10, decimal_places=5, blank=True, null= True)
+    tax_percent = models.DecimalField(max_digits=10, decimal_places=5, blank=True, null=True)
 
     class Meta:
         indexes = [
