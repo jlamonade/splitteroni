@@ -5,8 +5,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from decimal import Decimal
 
 from .models import Bill, Person, Item
-from .forms import BillCreateForm, BillUpdateForm, BillUpdateTaxPercentForm, BillUpdateTaxAmountForm
-from .mixins import BillUpdateViewMixin
+from .forms import (BillCreateForm,
+                    BillUpdateForm,
+                    BillUpdateTaxPercentForm,
+                    BillUpdateTaxAmountForm,
+                    BillUpdateTipForm)
+# Might end up using this to refactor code
+# from .mixins import BillUpdateViewMixin
 
 
 # Create your views here.
@@ -139,4 +144,15 @@ class BillUpdateTaxAmountView(UpdateView):
         bill = get_object_or_404(Bill, id=self.kwargs['pk'])
         form.instance.bill = bill
         form.instance.tax_percent = None
+        return super().form_valid(form)
+
+
+class BillUpdateTipView(UpdateView):
+    model = Bill
+    form_class = BillUpdateTipForm
+    template_name = 'splitter/bill_update_tip.html'
+
+    def form_valid(self, form):
+        bill = get_object_or_404(Bill, id=self.kwargs['pk'])
+        form.instance.bill = bill
         return super().form_valid(form)

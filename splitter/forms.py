@@ -33,6 +33,12 @@ class BillUpdateForm(ModelForm):
 
 class BillUpdateTaxPercentForm(ModelForm):
 
+    # def __init__(self, *args, **kwargs):
+    #     initial = kwargs.get('initial', {})
+    #     initial['tax'] = 0
+    #     kwargs['initial'] = initial
+    #     super(BillUpdateTaxPercentForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = Bill
         fields = ('tax_percent',)
@@ -47,4 +53,14 @@ class BillUpdateTaxAmountForm(ModelForm):
         fields = ('tax',)
         help_texts = {
             'tax': _('Please enter a currency amount.')
+        }
+
+
+class BillUpdateTipForm(ModelForm):
+    class Meta:
+        model = Bill
+        fields = ('tip',)
+        labels = _('Tax/Service Charge')
+        help_texts = {
+            'tip': _('Please enter currency amount.')
         }

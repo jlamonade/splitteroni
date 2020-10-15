@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from decimal import Decimal
 
 from .models import Bill, Person, Item
 
@@ -27,13 +28,26 @@ class SplitterTests(TestCase):
             title='testitem',
             price=14.00,
             person=self.person,
-            bill=self.bill
+            bill=self.bill,
         )
         self.shared_item = Item.objects.create(
             title='testshareditem',
             price=15.00,
             bill=self.bill,
-            shared=True
+            shared=True,
+        )
+        # Testing tax percent/amount
+        self.bill_two = Bill.objects.create(
+            title='testbill2',
+            tip=12.00,
+            tax_percent=8.875,
+            owner=self.user,
+        )
+        self.item_two = Item.objects.create(
+            title='testitem2',
+            price=14.00,
+            bill=self.bill_two,
+            shared=True,
         )
         self.bill_total = self.item.price + self.shared_item.price + self.bill.tax + self.bill.tip
         self.shared_item_total = self.bill.tip + self.bill.tax + self.shared_item.price
@@ -98,7 +112,7 @@ class SplitterTests(TestCase):
         """Tests for Bill model methods."""
 
         # Bill.get_order_total()
-        self.assertEqual(self.bill.get_order_total(), self.bill_total)
+        self.assertEqual(self.bill.get_order_grand_total(), self.bill_total)
 
         # Bill.get_shared_items_total()
         self.assertEqual(self.bill.get_shared_items_total(), self.shared_item.price)
@@ -110,6 +124,12 @@ class SplitterTests(TestCase):
         self.assertEqual(self.person.get_shared_items_split(), self.shared_item_total)
 
         # Person.get_person_total()
-        self.assertEqual(self.person.get_person_total(), self.bill.get_order_total())
+        self.assertEqual(self.person.get_person_total(), self.bill.get_order_grand_total())
 
-
+    def test_bill_calculate_tax(self):
+        self.assertContains(self.client.get(self.bill_two.get_absolute_url()), Decimal(self.bill_two.get_tax_amount()))
+        self.assertContains(self.client.get(self.bill_two.get_absolute_url()), self.bill_two.tax_percent)
+        self.bill_two.tax = 12.00
+        self.assertContains(self.client.get(self.bill_two.get_absolute_url()), Decimal(self.bill_two.tax))
+        self.bill_two.tax_percent = 8.875
+        self.assertContains(self.client.get(self.bill_two.get_absolute_url()), Decimal(self.bill_two.get_tax_amount()))

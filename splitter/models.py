@@ -35,7 +35,7 @@ class Bill(models.Model):
     def get_tax_amount(self):
         total = self.get_order_subtotal()
         if self.tax_percent:
-            tax_amount = total * (self.tax_percent / 100)
+            tax_amount = (total * (Decimal(self.tax_percent / 100)))
             bill = Bill.objects.get(id=self.id)
             bill.tax = tax_amount
             bill.save()
