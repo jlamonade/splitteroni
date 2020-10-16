@@ -9,9 +9,9 @@ from .forms import (BillCreateForm,
                     BillUpdateForm,
                     BillUpdateTaxPercentForm,
                     BillUpdateTaxAmountForm,
-                    BillUpdateTipForm)
-# Might end up using this to refactor code
-# from .mixins import BillUpdateViewMixin
+                    BillUpdateTipForm,
+                    BillUpdateTipPercentForm)
+from .mixins import BillUpdateViewMixin
 
 
 # Create your views here.
@@ -39,6 +39,8 @@ class BillDetailView(DetailView):
         context['shared_items'] = Item.objects.filter(bill=self.object.id, shared=True)
         if self.object.tax_percent:
             context['tax_percentage'] = Decimal(self.object.tax_percent).quantize(Decimal('0.001'))
+        if self.object.tip_percent:
+            context['tip_percentage'] = Decimal(self.object.tip_percent.quantize(Decimal('0')))
         return context
 
 
@@ -147,7 +149,7 @@ class BillUpdateTaxAmountView(UpdateView):
         return super().form_valid(form)
 
 
-class BillUpdateTipView(UpdateView):
+class BillUpdateTipAmountView(UpdateView):
     model = Bill
     form_class = BillUpdateTipForm
     template_name = 'splitter/bill_update_tip.html'
@@ -155,4 +157,17 @@ class BillUpdateTipView(UpdateView):
     def form_valid(self, form):
         bill = get_object_or_404(Bill, id=self.kwargs['pk'])
         form.instance.bill = bill
+        form.instance.tip_percent = None
+        return super().form_valid(form)
+
+
+class BillUpdateTipPercentView(UpdateView):
+    model = Bill
+    form_class = BillUpdateTipPercentForm
+    template_name = 'splitter/bill_update_tip_percent.html'
+
+    def form_valid(self, form):
+        bill = get_object_or_404(Bill, id=self.kwargs['pk'])
+        form.instance.bill = bill
+        form.instance.tip = None
         return super().form_valid(form)

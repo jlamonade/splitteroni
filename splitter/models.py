@@ -18,6 +18,7 @@ class Bill(models.Model):
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
+    tip_percent = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
     tax = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
     tax_percent = models.DecimalField(max_digits=10, decimal_places=5, blank=True, null=True)
 
@@ -42,6 +43,21 @@ class Bill(models.Model):
             return Decimal(tax_amount).quantize(Decimal('.01'))
         elif self.tax:
             return Decimal(self.tax).quantize(Decimal('.01'))
+        else:
+            return 0
+
+    def get_tip_amount(self):
+        total = self.get_order_subtotal() + self.get_tax_amount()
+        if self.tip_percent:
+            tip_amount = (total * (Decimal(self.tip_percent / 100)))
+            bill = Bill.objects.get(id=self.id)
+            bill.tip = tip_amount
+            bill.save()
+            return Decimal(tip_amount).quantize(Decimal('.01'))
+        elif self.tip:
+            return Decimal(self.tip).quantize(Decimal('.01'))
+        else:
+            return 0
 
     def get_order_grand_total(self):
         # Returns the sum of all items including tax and tip
