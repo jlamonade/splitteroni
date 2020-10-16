@@ -8,12 +8,9 @@
         <h1>Total: ${{ bill.get_order_grand_total }}</h1>
         <h5>
             Tip{% if bill.tip_percent %}({{ tip_percentage }}%){% endif %}:
-            ${% if bill.get_tip_amount %}{{ bill.tip }}{% else %}0.00{% endif %}
+            ${% if bill.get_tip_amount %}{{ bill.get_tip_amount }}{% else %}0.00{% endif %}
             Tax{% if bill.tax_percent %}({{ tax_percentage }}%){% endif %}:
-            ${% if bill.get_tax_amount %}{{ bill.tax }}
-        {% else %}
-            0.00
-        {% endif %}
+            ${% if bill.get_tax_amount %}{{ bill.get_tax_amount }}{% else %}0.00{% endif %}
         </h5>
         <div class="btn-group" role="group">
             <a href="{% url 'person-create' bill.pk %}" class="btn btn-dark">Add Person</a>
