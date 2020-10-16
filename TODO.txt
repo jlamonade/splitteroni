@@ -5,6 +5,7 @@ High Priority
     # Create a new session when user creates a new split and assign the value to a session key.
         # https://stackoverflow.com/questions/39181655/sometimes-request-session-session-key-is-none
 
+!! SEMI COMPLETED
 # Allow user to input tax percentage at split creation.
     # Consider how to switch between tax amount versus tax percentage.
         # How to have percentage and amount input on same form line?
