@@ -132,14 +132,9 @@ class SplitterTests(TestCase):
         self.assertContains(self.bill_two_response, self.bill_two.tax_percent)
         self.bill_two.tax = 12.00
         self.assertContains(self.bill_two_response, Decimal(self.bill_two.tax))
-        self.bill_two.tax_percent = 8.875
-        self.assertContains(self.bill_two_response, Decimal(self.bill_two.get_tax_amount()))
 
     def test_bill_calculate_tip(self):
         self.assertContains(self.bill_two_response, Decimal(self.bill_two.get_tip_amount()))
         self.assertContains(self.bill_two_response, self.bill_two.tip_percent)
         self.bill_two.tip = 12.00
         self.assertContains(self.bill_two_response, Decimal(self.bill_two.tip))
-        self.bill_two.tip_percent = 10.00
-        self.assertContains(self.bill_two_response, Decimal(self.bill_two.get_tip_amount()))
-        self.assertEqual(self.bill_two_response.response_code, 200)

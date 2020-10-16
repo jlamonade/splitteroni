@@ -68,7 +68,9 @@ class BillUpdateTipForm(ModelForm):
     class Meta:
         model = Bill
         fields = ('tip',)
-        labels = _('Tip/Service Charge')
+        labels = {
+            'tip': _('Tip/Service Charge'),
+        }
         help_texts = {
             'tip': _('Please enter currency amount.')
         }
@@ -78,7 +80,9 @@ class BillUpdateTipPercentForm(ModelForm):
     class Meta:
         model = Bill
         fields = ('tip_percent',)
-        labels = _('Tip/Service Charge Percent')
+        labels = {
+            'tip_percent': _('Tip/Service Charge Percent'),
+        }
         help_texts = {
             'tip': _('Please enter a percent(%) amount.')
         }
