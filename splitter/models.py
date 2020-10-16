@@ -34,9 +34,9 @@ class Bill(models.Model):
             return self.title.title()
 
     def get_tax_amount(self):
-        total = self.get_order_subtotal()
+        subtotal = self.get_order_subtotal()
         if self.tax_percent:
-            tax_amount = (total * (Decimal(self.tax_percent / 100)))
+            tax_amount = (subtotal * (Decimal(self.tax_percent / 100)))
             bill = Bill.objects.get(id=self.id)
             bill.tax = tax_amount
             bill.save()
@@ -47,9 +47,9 @@ class Bill(models.Model):
             return 0
 
     def get_tip_amount(self):
-        total = self.get_order_subtotal() + self.get_tax_amount()
+        subtotal = self.get_order_subtotal() + self.get_tax_amount()
         if self.tip_percent:
-            tip_amount = (total * (Decimal(self.tip_percent / 100)))
+            tip_amount = (subtotal * (Decimal(self.tip_percent / 100)))
             bill = Bill.objects.get(id=self.id)
             bill.tip = tip_amount
             bill.save()
