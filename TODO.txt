@@ -1,9 +1,11 @@
 High Priority
 
+!! COMPLETED
 # Assign session variables into user sessions so that only they can view their bill.
     # Consider allowing the anonymous user to create an account and save their current session.
     # Create a new session when user creates a new split and assign the value to a session key.
         # https://stackoverflow.com/questions/39181655/sometimes-request-session-session-key-is-none
+        # https://stackoverflow.com/questions/13938805/django-storing-anonymous-user-data
 
 !! SEMI COMPLETED
 # Allow user to input tax percentage at split creation.

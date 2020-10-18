@@ -16,6 +16,7 @@ class Bill(models.Model):
     )
     title = models.CharField(max_length=50, blank=True, null=True)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
+    session = models.CharField(max_length=40, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     tip = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
     tip_percent = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)

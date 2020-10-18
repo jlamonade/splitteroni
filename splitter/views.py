@@ -2,6 +2,7 @@ from django.views.generic import CreateView, DetailView, DeleteView, ListView, U
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from decimal import Decimal
 
 from .models import Bill, Person, Item
@@ -24,6 +25,8 @@ class BillCreateView(CreateView):
             form.instance.owner = self.request.user
             return super().form_valid(form)
         else:
+            self.request.session.create()
+            form.instance.session = self.request.session.session_key
             return super().form_valid(form)
 
 
@@ -42,6 +45,16 @@ class BillDetailView(DetailView):
         if self.object.tip_percent:
             context['tip_percentage'] = Decimal(self.object.tip_percent.quantize(Decimal('0')))
         return context
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        obj = get_object_or_404(Bill, id=pk)
+        if self.request.user.is_authenticated:
+            return obj
+        elif self.request.session.session_key == obj.session:
+            return obj
+        else:
+            return Http404
 
 
 class PersonCreateView(CreateView):
@@ -69,7 +82,10 @@ class BillListView(LoginRequiredMixin ,ListView):
     login_url = 'account_login'
 
     def get_queryset(self):
-        qs = Bill.objects.filter(owner=self.request.user).order_by('-date_created')
+        if self.request.user.is_authenticated:
+            qs = Bill.objects.filter(owner=self.request.user).order_by('-date_created')
+        elif not self.request.user.is_authenticated:
+            qs = Bill.objects.filter(session=self.request.session.session_key).order_by('-date_created')
         return qs
 
 
