@@ -15,7 +15,7 @@ High Priority
         # Tax percentage localization? Will users enter their current location? Google Maps API to pull in GPS data?
     // Added ability to change from percentage calculation and manually entering amount.
         // Might want to think about the UX of this method
-    # Write tests for new feature
+    // Write tests for new feature
     # Think about how to implement tax amount and percent into the same view/form.
 
 Lower priority
@@ -29,6 +29,7 @@ Lower priority
 # Consider reversing the logic.
     # Having an initial split total and each new item subtracts from the total.
 
+!! COMPLETED
 # Add separate buttons for editing tax and tip?
 
 !! COMPLETED
