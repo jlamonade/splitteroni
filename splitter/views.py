@@ -49,12 +49,12 @@ class BillDetailView(DetailView):
     def get_object(self, queryset=None):
         pk = self.kwargs.get('pk')
         obj = get_object_or_404(Bill, id=pk)
-        if self.request.user.is_authenticated:
+        if self.request.user.is_authenticated and self.request.user == obj.owner:
             return obj
         elif self.request.session.session_key == obj.session:
             return obj
         else:
-            return Http404
+            raise Http404
 
 
 class PersonCreateView(CreateView):
