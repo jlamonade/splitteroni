@@ -31,5 +31,6 @@ Lower priority
 
 # Add separate buttons for editing tax and tip?
 
+!! COMPLETED
 # Change Tip to Tip/Service Charge?
 
