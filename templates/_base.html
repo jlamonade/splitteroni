@@ -14,9 +14,9 @@
 </head>
 <body>
   <header>
-    <nav class="navbar navbar-expand-md navbar-light bg-light"
+    <nav class="navbar navbar-expand-md navbar-light bg-light font-weight-bold"
          style="margin-bottom: 25px">
-      <a class="navbar-brand font-weight-bold" href="{% url 'home' %}">
+      <a class="navbar-brand" href="{% url 'home' %}">
           SPLITTERONI<span class="badge badge-pill badge-dark ml-1">beta</span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -32,11 +32,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'bill-create' %}">New Split</a>
           </li>
-          {% if user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'bill-list' %}">History</a>
           </li>
-          {% endif %}
         </ul>
         <ul class="navbar-nav mr-right">
             {% if user.is_authenticated %}

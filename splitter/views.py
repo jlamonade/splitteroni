@@ -76,7 +76,7 @@ class BillDeleteView(DeleteView):
         return reverse_lazy('bill-list')
 
 
-class BillListView(LoginRequiredMixin ,ListView):
+class BillListView(ListView):
     template_name = 'splitter/bill_list.html'
     context_object_name = 'bills'
     login_url = 'account_login'
@@ -84,8 +84,10 @@ class BillListView(LoginRequiredMixin ,ListView):
     def get_queryset(self):
         if self.request.user.is_authenticated:
             qs = Bill.objects.filter(owner=self.request.user).order_by('-date_created')
-        elif not self.request.user.is_authenticated:
+        elif self.request.session.session_key:
             qs = Bill.objects.filter(session=self.request.session.session_key).order_by('-date_created')
+        else:
+            qs = None
         return qs
 
 
