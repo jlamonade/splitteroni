@@ -1,7 +1,6 @@
-from django.views.generic import CreateView, DetailView, DeleteView, ListView, UpdateView, FormView
+from django.views.generic import CreateView, DetailView, DeleteView, ListView, UpdateView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from decimal import Decimal
 
@@ -12,7 +11,7 @@ from .forms import (BillCreateForm,
                     BillUpdateTaxAmountForm,
                     BillUpdateTipForm,
                     BillUpdateTipPercentForm)
-from .mixins import BillUpdateViewMixin
+# from .mixins import BillUpdateViewMixin
 
 
 # Create your views here.
@@ -79,7 +78,6 @@ class BillDeleteView(DeleteView):
 class BillListView(ListView):
     template_name = 'splitter/bill_list.html'
     context_object_name = 'bills'
-    login_url = 'account_login'
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
