@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from decimal import Decimal
@@ -139,3 +139,11 @@ class SplitterTests(TestCase):
         self.assertContains(self.bill_two_response, self.bill_two.tip_percent)
         self.bill_two.tip = 12.00
         self.assertContains(self.bill_two_response, Decimal(self.bill_two.tip))
+
+    def test_bill_saves_session(self):
+        self.client.session.create()
+        self.bill_three = Bill.objects.create(
+            title='testbill3',
+            session=self.client.session.session_key,
+        )
+        self.assertEqual(self.bill_three.session, self.client.session.session_key)
