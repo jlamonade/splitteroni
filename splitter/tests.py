@@ -5,6 +5,7 @@ from decimal import Decimal
 
 from .models import Bill, Person, Item
 
+
 # Create your tests here.
 class SplitterTests(TestCase):
 
@@ -69,7 +70,7 @@ class SplitterTests(TestCase):
 
     def test_bill_list_view_for_logged_out_users(self):
         response = self.client.get(reverse('bill-list'))
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_bill_detail_view(self):
         no_response = self.client.get('/bill/12345/')
