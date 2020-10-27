@@ -1,5 +1,7 @@
 High Priority
 
+# Increase efficiency by only calling up functions only when things are changed in the DB.
+
 !! COMPLETED
 # Assign session variables into user sessions so that only they can view their bill.
     # Consider allowing the anonymous user to create an account and save their current session.
