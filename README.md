@@ -10,8 +10,8 @@ This is a simple no non-sense bill splitter web app that I created because I did
 1. Activate the environment: `. venv/bin/activate`
 1. Update config/settings.py by adding your own django secret key
 1. Start Django internal test server: `python manage.py runserver`
-1. Create the superuser: `python manage.py createsuperuser`
 1. Make the first migration: `python manage.py migrate`
+1. Create the superuser: `python manage.py createsuperuser`
 
 ## Non-pip dependencies
 
