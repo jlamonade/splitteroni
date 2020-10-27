@@ -13,7 +13,7 @@ This is a simple no non-sense bill splitter web app that I created because I did
 1. Create the superuser: `python manage.py createsuperuser`
 1. Make the first migration: `python manage.py migrate`
 
-## Non-pip dependencies (install using your distro's package manager)
+## Non-pip dependencies
 
 - `python3.8`
 - `postgresql`
