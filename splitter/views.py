@@ -25,6 +25,7 @@ class BillCreateView(CreateView):
             return super().form_valid(form)
         else:
             self.request.session.create()
+            self.request.session.set_expiry(604800)
             form.instance.session = self.request.session.session_key
             return super().form_valid(form)
 
